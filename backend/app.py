@@ -110,31 +110,6 @@ def process():
     return res
 
 
-
-
-bcrypt = Bcrypt(app)
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-
-users = {
-    'user1': {
-        'username': 'user1',
-        'password': bcrypt.generate_password_hash('password').decode('utf-8')
-    }
-}
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    username = data.get('username')
-    password = data.get('password')
-
-    if username in users and bcrypt.check_password_hash(users[username]['password'], password):
-        session['username'] = username
-        return jsonify({'success': True, 'message': 'Login successful'})
-    else:
-        return jsonify({'success': False, 'message': 'Invalid credentials'})
-
-
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
 
