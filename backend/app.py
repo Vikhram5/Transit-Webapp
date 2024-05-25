@@ -15,6 +15,10 @@ app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 CORS(app)
 
+@app.route('/'):
+def hello():
+    return "hello world"
+
 @app.route('/visualize_loading',methods=['POST'])
 def visualize_loading():
     res=visualize_bus_loading()
