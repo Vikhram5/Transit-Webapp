@@ -12,7 +12,6 @@ import Dashboard from "./DashBoard";
 const App = () => {
   return (
     <>
-    
       <Router>
         <Layout>
           <Routes>

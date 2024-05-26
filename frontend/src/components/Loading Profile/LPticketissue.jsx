@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import LoadingChart from "./LPchart"; // Import the LoadingChart component
+import { BASE_URL } from "../../config";
 
 function LoadingProfile() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -18,7 +19,7 @@ function LoadingProfile() {
     // Fetch schedule names when selectedFile changes
     if (selectedFile) {
       axios
-        .post("http://127.0.0.1:5000/get_schedule_names", {
+        .post(`${BASE_URL}/get_schedule_names`, {
           filename: selectedFile.name,
         })
         .then((response) => {
@@ -33,7 +34,7 @@ function LoadingProfile() {
   useEffect(() => {
     if (selectedFile && scheduleName) {
       axios
-        .post("http://127.0.0.1:5000/get_source", {
+        .post(`${BASE_URL}/get_source`, {
           filename: selectedFile.name,
           schedule: scheduleName,
         })
@@ -49,7 +50,7 @@ function LoadingProfile() {
   useEffect(() => {
     if (selectedFile && scheduleName && source) {
       axios
-        .post("http://127.0.0.1:5000/get_destination", {
+        .post(`${BASE_URL}/get_destination`, {
           filename: selectedFile.name,
           schedule: scheduleName,
           source,
@@ -76,7 +77,7 @@ function LoadingProfile() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/visualize_ticket",
+        `${BASE_URL}/visualize_ticket`,
         data
       );
       setChartData(response.data); // Set chart data received from the backend

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import { BASE_URL } from "../../config";
 
 function PassCount1() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -14,7 +15,7 @@ function PassCount1() {
   useEffect(() => {
     // Fetch schedule names when selectedFile changes
     if (selectedFile) {
-      axios.post('http://127.0.0.1:5000/get_schedule_names', { filename: selectedFile.name })
+      axios.post(`${BASE_URL}/get_schedule_names`, { filename: selectedFile.name })
         .then(response => {
           setScheduleNames(response.data.scheduleNames);
         })
@@ -26,7 +27,7 @@ function PassCount1() {
 
   useEffect(() => {
     if (selectedFile && schedule) {
-      axios.post('http://127.0.0.1:5000/get_source', { filename: selectedFile.name, schedule })
+      axios.post(`${BASE_URL}/get_source`, { filename: selectedFile.name, schedule })
         .then(response => {
           setSourceOptions(response.data.sources);
         })
@@ -38,7 +39,7 @@ function PassCount1() {
 
   useEffect(() => {
     if (selectedFile && schedule && source) {
-      axios.post('http://127.0.0.1:5000/get_destination', { filename: selectedFile.name, schedule, source })
+      axios.post(`${BASE_URL}/get_destination`, { filename: selectedFile.name, schedule, source })
         .then(response => {
           setDestinationOptions(response.data.destinations);
         })
@@ -63,7 +64,7 @@ function PassCount1() {
     data.append('destination', destination);
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/process_data', data);
+      const response = await axios.post(`${BASE_URL}/process_data`, data);
       setTableData(response.data);
     } catch (error) {
       console.error('Error sending data:', error);

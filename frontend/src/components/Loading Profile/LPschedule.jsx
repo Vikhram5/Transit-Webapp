@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import LoadingChart from "./LPchart"; // Import the LoadingChart component
+import { BASE_URL } from "../../config";
 
 function LoadingProfile() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -18,7 +19,7 @@ function LoadingProfile() {
     // Fetch schedule names when selectedFile changes
     if (selectedFile) {
       axios
-        .post("http://127.0.0.1:5000/get_schedule_names", {
+        .post(`${BASE_URL}/get_schedule_names`, {
           filename: selectedFile.name,
         })
         .then((response) => {
@@ -33,7 +34,7 @@ function LoadingProfile() {
   useEffect(() => {
     if (selectedFile && scheduleName) {
       axios
-        .post("http://127.0.0.1:5000/get_source", {
+        .post(`${BASE_URL}/get_source`, {
           filename: selectedFile.name,
           schedule: scheduleName,
         })
@@ -49,7 +50,7 @@ function LoadingProfile() {
   useEffect(() => {
     if (selectedFile && scheduleName && source) {
       axios
-        .post("http://127.0.0.1:5000/get_destination", {
+        .post(`${BASE_URL}/get_destination`, {
           filename: selectedFile.name,
           schedule: scheduleName,
           source,
@@ -75,10 +76,7 @@ function LoadingProfile() {
     data.append("endTime", endTime);
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:5000/visualize_loading",
-        data
-      );
+      const response = await axios.post(`${BASE_URL}/visualize_loading`, data);
       setChartData(response.data); // Set chart data received from the backend
     } catch (error) {
       console.error("Error sending data:", error);
@@ -88,7 +86,7 @@ function LoadingProfile() {
   return (
     <div className="container mx-auto">
       <div className="flex justify-center pt-10">
-      <div className="w-full md:w-2/3 lg:w-2/9">
+        <div className="w-full md:w-2/3 lg:w-2/9">
           <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col items-start">
             <form onSubmit={handleSubmit} className="w-full">
               <div className="mb-4">
@@ -105,7 +103,7 @@ function LoadingProfile() {
                   onChange={(e) => setSelectedFile(e.target.files[0])}
                 />
               </div>
-  
+
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <label
@@ -144,7 +142,7 @@ function LoadingProfile() {
                   </select>
                 </div>
               </div>
-  
+
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <label
@@ -189,7 +187,7 @@ function LoadingProfile() {
                   </select>
                 </div>
               </div>
-  
+
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <label
@@ -222,8 +220,6 @@ function LoadingProfile() {
                   />
                 </div>
               </div>
-  
-         
 
               <button
                 type="submit"

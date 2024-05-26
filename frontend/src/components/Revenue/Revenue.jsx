@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import RevenueChart from './RevenueChart'; // Import RevenueChart component
+import { BASE_URL } from "../../config";
 
 function Revenue() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -14,7 +15,7 @@ function Revenue() {
     data.append('file', selectedFile);
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/process_revenue', data);
+      const response = await axios.post(`${BASE_URL}/process_revenue`, data);
       setRevenueData(response.data); // Set revenue data received from the backend
     } catch (error) {
       console.error('Error sending data:', error);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import LoadingChart from './LPchart'; // Import the LoadingChart component
+import { BASE_URL } from "../../config";
 
 function LoadingProf1() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -17,7 +18,7 @@ function LoadingProf1() {
   useEffect(() => {
     // Fetch bus numbers when selectedFile changes
     if (selectedFile) {
-      axios.post('http://127.0.0.1:5000/get_bus_numbers', { filename: selectedFile.name })
+      axios.post(`${BASE_URL}/get_bus_numbers`, { filename: selectedFile.name })
         .then(response => {
           setBusOptions(response.data.busNumbers);
         })
@@ -30,7 +31,7 @@ function LoadingProf1() {
   useEffect(() => {
     // Fetch source options when both selectedFile and busNumber change
     if (selectedFile && busNumber) {
-      axios.post('http://127.0.0.1:5000/get_source', { filename: selectedFile.name, busNumber })
+      axios.post(`${BASE_URL}/get_source`, { filename: selectedFile.name, busNumber })
         .then(response => {
           setSourceOptions(response.data.sources);
         })
@@ -43,7 +44,7 @@ function LoadingProf1() {
   useEffect(() => {
     // Fetch destination options when selectedFile, busNumber, and source change
     if (selectedFile && busNumber && source) {
-      axios.post('http://127.0.0.1:5000/get_destination', { filename: selectedFile.name, busNumber, source })
+      axios.post(`${BASE_URL}/get_destination`, { filename: selectedFile.name, busNumber, source })
         .then(response => {
           setDestinationOptions(response.data.destinations);
         })
@@ -69,7 +70,7 @@ function LoadingProf1() {
     data.append('endTime', endTime);
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/visualize_loading', data);
+      const response = await axios.post(`${BASE_URL}/visualize_loading`, data);
       setChartData(response.data); // Set chart data received from the backend
     } catch (error) {
       console.error('Error sending data:', error);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import BusChart from './BusChart'; // Import BusChart component
+import { BASE_URL } from "../../config";
 
 function BusCount() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -16,7 +17,7 @@ function BusCount() {
   useEffect(() => {
     // Fetch bus numbers when selectedFile changes
     if (selectedFile) {
-      axios.post('http://127.0.0.1:5000/get_bus_numbers', { filename: selectedFile.name })
+      axios.post(`${BASE_URL}/get_bus_numbers`, { filename: selectedFile.name })
         .then(response => {
           setBusOptions(response.data.busNumbers);
         })
@@ -29,7 +30,7 @@ function BusCount() {
   useEffect(() => {
     // Fetch source options when both selectedFile and busNumber change
     if (selectedFile && busNumber) {
-      axios.post('http://127.0.0.1:5000/get_source', { filename: selectedFile.name, busNumber })
+      axios.post(`${BASE_URL}/get_source`, { filename: selectedFile.name, busNumber })
         .then(response => {
           setSourceOptions(response.data.sources);
         })
@@ -42,7 +43,7 @@ function BusCount() {
   useEffect(() => {
     // Fetch destination options when selectedFile, busNumber, and source change
     if (selectedFile && busNumber && source) {
-      axios.post('http://127.0.0.1:5000/get_destination', { filename: selectedFile.name, busNumber, source })
+      axios.post(`${BASE_URL}/get_destination`, { filename: selectedFile.name, busNumber, source })
         .then(response => {
           setDestinationOptions(response.data.destinations);
         })
@@ -66,7 +67,7 @@ function BusCount() {
     data.append('destination', destination);
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/process_bus', data);
+      const response = await axios.post(`${BASE_URL}/process_bus`, data);
       setTableData(response.data); // Set table data received from the backend
     } catch (error) {
       console.error('Error sending data:', error);

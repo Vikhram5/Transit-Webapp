@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import BusChart from "./BusChart"; // Import BusChart component
+import { BASE_URL } from "../../config";
 
 
 function BusCount() {
@@ -18,7 +19,7 @@ function BusCount() {
     // Fetch bus numbers when selectedFile changes
     if (selectedFile) {
       axios
-        .post("http://127.0.0.1:5000/get_bus_numbers", {
+        .post(`${BASE_URL}/get_bus_numbers`, {
           filename: selectedFile.name,
         })
         .then((response) => {
@@ -34,7 +35,7 @@ function BusCount() {
     // Fetch source options when both selectedFile and busNumber change
     if (selectedFile && busNumber) {
       axios
-        .post("http://127.0.0.1:5000/get_source", {
+        .post(`${BASE_URL}/get_source`, {
           filename: selectedFile.name,
           busNumber,
         })
@@ -51,7 +52,7 @@ function BusCount() {
     // Fetch destination options when selectedFile, busNumber, and source change
     if (selectedFile && busNumber && source) {
       axios
-        .post("http://127.0.0.1:5000/get_destination", {
+        .post(`${BASE_URL}/get_destination`, {
           filename: selectedFile.name,
           busNumber,
           source,
@@ -78,7 +79,7 @@ function BusCount() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/process_bus",
+        `${BASE_URL}/process_bus`,
         data
       );
       setTableData(response.data); // Set table data received from the backend

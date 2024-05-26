@@ -14,7 +14,8 @@ from visualize_ticket import visualize_bus_ticket
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 @app.route('/visualize_loading',methods=['POST'])
 def visualize_loading():

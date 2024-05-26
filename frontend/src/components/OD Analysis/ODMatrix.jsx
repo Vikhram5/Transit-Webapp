@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ODMatrixTable from "./ODMatrixTable";
+import { BASE_URL } from "../../config";
 
 function ODMatrix() {
   const [file, setFile] = useState(null);
@@ -28,7 +29,7 @@ function ODMatrix() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/generate_od_matrix",
+        `${BASE_URL}/generate_od_matrix`,
         formData
       );
       setOdMatrix(response.data);

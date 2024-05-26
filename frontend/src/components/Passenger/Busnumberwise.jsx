@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { BASE_URL } from "../../config";
 
 function PassengerCount() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -14,7 +15,7 @@ function PassengerCount() {
   useEffect(() => {
     if (selectedFile) {
       axios
-        .post("http://127.0.0.1:5000/get_bus_numbers", {
+        .post(`${BASE_URL}/get_bus_numbers`, {
           filename: selectedFile.name,
         })
         .then((response) => {
@@ -30,7 +31,7 @@ function PassengerCount() {
   useEffect(() => {
     if (selectedFile && busNumber) {
       axios
-        .post("http://127.0.0.1:5000/get_source", {
+        .post(`${BASE_URL}/get_source`, {
           filename: selectedFile.name,
           busNumber,
         })
@@ -46,7 +47,7 @@ function PassengerCount() {
   useEffect(() => {
     if (selectedFile && busNumber && source) {
       axios
-        .post("http://127.0.0.1:5000/get_destination", {
+        .post(`${BASE_URL}/get_destination`, {
           filename: selectedFile.name,
           busNumber,
           source,
@@ -76,7 +77,7 @@ function PassengerCount() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/process_data",
+        `${BASE_URL}/process_data`,
         data
       );
       setTableData(response.data);
