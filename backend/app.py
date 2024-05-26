@@ -3,7 +3,6 @@ import pandas as pd
 from flask import Flask, jsonify, request , session
 from flask_cors import CORS
 import os
-from flask_bcrypt import Bcrypt
 import numpy as np
 from visualize import visualize_bus_loading
 from passcount import process_data
@@ -15,6 +14,7 @@ from visualize_ticket import visualize_bus_ticket
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 
 @app.route('/visualize_loading',methods=['POST'])
@@ -110,5 +110,12 @@ def process():
     res=process_data()
     return res
 
+<<<<<<< HEAD
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
+=======
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
+
+>>>>>>> origin/main
